@@ -55,15 +55,25 @@ h1{font-size:48px;font-weight:600;line-height:1.1;letter-spacing:-1.5px;color:va
 
 /* ── 소개 ──────────────────────────────────────────── */
 .intro{padding:8px 0 96px}
-.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+.intro-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:56px;align-items:start}
+/* 역할 칸의 윗선을 연표 첫 점과 맞춘다 (제목 높이만큼 내림) */
+.roles{display:grid;grid-template-columns:1fr;gap:12px;margin-top:46px}
 .role-item{background:var(--surface-soft);border-radius:var(--r-lg);padding:22px 24px}
 .role-item h3{font-size:16px;font-weight:600;color:var(--ink);margin:0 0 6px}
 .role-item p{font-size:14px;line-height:1.55;color:var(--body);margin:0 0 12px}
 .role-item span{font-size:12px;font-weight:500;color:var(--muted-soft)}
-.profile{display:grid;gap:10px;margin:8px 0 0;font-size:16px;line-height:1.5}
-.profile div{display:flex;gap:20px}
-.profile dt{flex:0 0 44px;color:var(--muted-soft);font-weight:500}
-.profile dd{margin:0;color:var(--body)}
+.timeline{list-style:none;margin:12px 0 0;padding:0}
+.timeline li{position:relative;padding:0 0 26px 92px;min-height:26px}
+.timeline li:last-child{padding-bottom:0}
+/* 점과 점을 잇는 세로선 — 칸을 나누는 선이 아니라 시간의 흐름 */
+.timeline li::before{content:"";position:absolute;left:66px;top:14px;bottom:-4px;width:1.5px;background:var(--hairline)}
+.timeline li:last-child::before{display:none}
+.timeline li::after{content:"";position:absolute;left:60px;top:5px;width:13px;height:13px;
+  border-radius:50%;box-sizing:border-box;background:var(--canvas);border:2.5px solid var(--ink)}
+.tl-year{position:absolute;left:0;top:0;font-size:15px;font-weight:600;color:var(--ink);
+  font-variant-numeric:tabular-nums;letter-spacing:-.2px;line-height:1.5}
+.tl-body p{margin:0;font-size:16px;font-weight:500;line-height:1.5;color:var(--ink)}
+.tl-body span{display:block;margin-top:2px;font-size:14px;line-height:1.5;color:var(--muted)}
 
 /* ── 섹션 제목 (display-sm) ───────────────────────── */
 .sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:12px}
@@ -221,7 +231,8 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
   .proj h3{font-size:20px}
   .matrix{padding:16px}
   .intro{padding:0 0 56px}
-  .roles{grid-template-columns:1fr}
+  .intro-cols{grid-template-columns:1fr;gap:32px}
+  .roles{margin-top:0}
   footer{padding:48px 0}
     }
 </style>
@@ -231,10 +242,9 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
 <header>
   <div class="wrap head-grid">
     <div>
-      <p class="eyebrow">아주대학교 디지털미디어학과</p>
       <h1>김재준</h1>
       <p class="lead">창작자의 불편을 겪어 본 개발자</p>
-      <p class="lead-sub">겪은 문제를 기획으로 정리하고, 화면부터 서버와 클라우드까지 직접 만들어 운영합니다.</p>
+      <p class="lead-sub">제가 부딪힌 문제를, 다른 사람도 계속 쓰는 서비스로 만듭니다.</p>
     </div>
     <dl class="meta">
       <div><b>메일</b> <a href="mailto:kimsman@ajou.ac.kr">kimsman@ajou.ac.kr</a></div>
@@ -246,12 +256,22 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
 <!-- ⓪ 소개 -->
 <section class="intro">
   <div class="wrap">
+    <div class="intro-cols">
+    <div>
     <div class="sec-head"><h2>소개</h2></div>
-    <dl class="profile">
-      <div><dt>배경</dt><dd>고등학교 영화제작동아리 D.V.D 창단 초기 멤버 · 공군 정훈병 (홍보 사진 촬영)</dd></div>
-      <div><dt>전공</dt><dd>아주대학교 디지털미디어학과 · 데이터보안 부전공</dd></div>
-      <div><dt>자격</dt><dd>AWS Certified Security – Specialty (2026.06) · 멀티미디어콘텐츠제작전문가</dd></div>
-    </dl>
+    <ol class="timeline">
+      <li><span class="tl-year">2022</span>
+        <div class="tl-body"><p>아주대학교 디지털미디어학과 입학</p></div></li>
+      <li><span class="tl-year">2023</span>
+        <div class="tl-body"><p>공군 입대</p><span>정훈병 · 홍보 사진 촬영</span></div></li>
+      <li><span class="tl-year">2024</span>
+        <div class="tl-body"><p>공군 해커톤 본선 진출</p><span>MCSS · AI 이미지 보안성 검토 체계</span></div></li>
+      <li><span class="tl-year"></span>
+        <div class="tl-body"><p>멀티미디어콘텐츠제작전문가</p><span>취득</span></div></li>
+      <li><span class="tl-year">2026</span>
+        <div class="tl-body"><p>AWS Certified Security – Specialty</p><span>6월 취득</span></div></li>
+    </ol>
+    </div>
 
     <div class="roles">
       <div class="role-item">
@@ -269,6 +289,7 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
         <p>컨테이너로 묶어 검사를 통과해야만 배포되게 하고, 매일 백업합니다. AWS 보안 자격을 딴 뒤 직접 서버를 운영하고 있습니다.</p>
         <span>D.V.D · AWS Security (2026.06)</span>
       </div>
+    </div>
     </div>
 
   </div>
