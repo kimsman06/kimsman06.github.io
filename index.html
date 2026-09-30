@@ -50,63 +50,55 @@ header{padding:96px 0 72px;background:var(--canvas)}
 h1{font-size:48px;font-weight:600;line-height:1.1;letter-spacing:-1.5px;color:var(--ink);margin:0 0 14px}
 .lead{font-size:22px;font-weight:600;line-height:1.3;letter-spacing:-.3px;color:var(--ink);margin:0}
 .lead-sub{font-size:16px;font-weight:400;line-height:1.5;color:var(--body);margin:8px 0 0}
-.meta{font-size:14px;font-weight:400;line-height:1.5;color:var(--muted);display:grid;gap:6px;min-width:260px}
-.meta b{font-weight:500;color:var(--muted-soft);display:inline-block;width:56px}
 
 /* ── 소개 ──────────────────────────────────────────── */
-.intro{padding:8px 0 96px}
-.intro-cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:56px;align-items:start}
-/* 역할 칸의 윗선을 연표 첫 점과 맞춘다 (제목 높이만큼 내림) */
-.roles{display:grid;grid-template-columns:1fr;gap:12px;margin-top:46px}
-.role-item{background:var(--surface-soft);border-radius:var(--r-lg);padding:22px 24px}
-.role-item h3{font-size:16px;font-weight:600;color:var(--ink);margin:0 0 6px}
-.role-item p{font-size:14px;line-height:1.55;color:var(--body);margin:0 0 12px}
-.role-item span{font-size:12px;font-weight:500;color:var(--muted-soft)}
-.timeline{list-style:none;margin:12px 0 0;padding:0}
-.timeline li{position:relative;padding:0 0 26px 92px;min-height:26px}
-.timeline li:last-child{padding-bottom:0}
-/* 점과 점을 잇는 세로선 — 칸을 나누는 선이 아니라 시간의 흐름 */
-.timeline li::before{content:"";position:absolute;left:66px;top:14px;bottom:-4px;width:1.5px;background:var(--hairline)}
-.timeline li:last-child::before{display:none}
-.timeline li::after{content:"";position:absolute;left:60px;top:5px;width:13px;height:13px;
-  border-radius:50%;box-sizing:border-box;background:var(--canvas);border:2.5px solid var(--ink)}
-.tl-year{position:absolute;left:0;top:0;font-size:15px;font-weight:600;color:var(--ink);
-  font-variant-numeric:tabular-nums;letter-spacing:-.2px;line-height:1.5}
-.tl-body p{margin:0;font-size:16px;font-weight:500;line-height:1.5;color:var(--ink)}
-.tl-body span{display:block;margin-top:2px;font-size:14px;line-height:1.5;color:var(--muted)}
+.intro{padding:24px 0 112px}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:88px}
+.role-item{background:var(--surface-soft);border-radius:var(--r-lg);padding:28px 28px 26px}
+.role-item h3{font-size:17px;font-weight:600;color:var(--ink);margin:0 0 10px}
+.role-item p{font-size:15px;line-height:1.65;color:var(--body);margin:0 0 16px}
+.role-item span{font-size:13px;font-weight:500;color:var(--muted-soft)}
+/* 가로 연표 — 연도마다 한 칸. 선은 마지막 점을 지나 끝까지 이어지며 흐려진다 (앞으로도 이어진다) */
+.tl{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));position:relative}
+.tl::before{content:"";position:absolute;left:6px;right:0;top:36px;height:1.5px;
+  background:linear-gradient(90deg,var(--hairline) 0,var(--hairline) 82%,transparent 100%)}
+.tl li{position:relative;padding-right:36px}
+.tl-year{display:block;height:24px;font-size:15px;font-weight:600;color:var(--ink);letter-spacing:-.2px;
+  font-variant-numeric:tabular-nums}
+.tl-dot{display:block;position:relative;z-index:1;width:13px;height:13px;margin:6px 0 20px;border-radius:50%;
+  box-sizing:border-box;background:var(--canvas);border:2.5px solid var(--ink)}
+.tl-item + .tl-item{margin-top:18px}
+.tl-item p{margin:0;font-size:16px;font-weight:500;line-height:1.5;color:var(--ink)}
+.tl-item span{display:block;margin-top:4px;font-size:14px;line-height:1.5;color:var(--muted)}
+/* 생각 두 칸 — 긴 문단 대신 제목 한 줄과 짧은 설명 */
+.beliefs{display:grid;grid-template-columns:1fr 1fr;gap:72px;margin-top:88px}
+.belief h3{font-size:20px;font-weight:600;letter-spacing:-.3px;color:var(--ink);margin:0 0 12px}
+.belief p{margin:0;font-size:16px;line-height:1.75;color:var(--body)}
 
 /* ── 섹션 제목 (display-sm) ───────────────────────── */
-.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:12px}
-h2{font-size:28px;font-weight:600;line-height:1.2;letter-spacing:-.5px;color:var(--ink);margin:0}
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:16px}
+h2{font-size:36px;font-weight:600;line-height:1.15;letter-spacing:-1px;color:var(--ink);margin:0}
 .note{font-size:13px;font-weight:500;color:var(--muted-soft);margin:0}
 .desc{font-size:16px;font-weight:400;line-height:1.5;color:var(--body);margin:0 0 32px}
 
 /* ── 매트릭스 (product-mockup-card) ───────────────── */
 .matrix{background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);
   padding:24px;overflow-x:auto;box-shadow:var(--shadow-sm)}
-table{border-collapse:separate;border-spacing:0;table-layout:fixed;
-  width:100%;min-width:640px;font-size:14px}
-th,td{padding:0}
-thead th{font-weight:600;font-size:14px;color:var(--ink);padding:0 3px 10px;text-align:center}
-thead th:first-child{background:transparent}
-/* 첫 열만 폭을 고정하면, fixed 배치가 나머지 네 열을 똑같이 나눠 가진다 */
-thead th:first-child,tbody th{width:118px}
-tbody th{font-weight:500;font-size:14px;color:var(--muted);text-align:left;
-  padding:0 18px 0 0;white-space:nowrap}
-tbody td{padding:3px;text-align:center}
-/* 칸마다 떼어 놓는다 — 붙여 두면 옆 칸과 한 덩어리로 읽힌다 */
-td span{display:block;width:100%;height:42px;line-height:42px;
-  font-size:13px;font-weight:500;border-radius:var(--r-sm)}
-/* 칸이 많아 근검정은 지면을 눌러 버린다 — 한 단계 낮춘 body 톤으로 채운다 */
-.own{background:var(--body);color:var(--on-primary);font-weight:500}
-.shared{background:var(--surface-strong);color:var(--muted)}
-.none{background:var(--hairline-soft);color:var(--muted-soft)}
-.legend{display:flex;flex-wrap:wrap;gap:22px;margin-top:22px;font-size:14px;color:var(--muted)}
-.legend i{display:inline-block;width:12px;height:12px;margin-right:8px;vertical-align:-1px;
-  border-radius:3px;border:1px solid var(--hairline)}
-.legend .l1{background:var(--body);border-color:var(--body)}
-.legend .l2{background:var(--surface-strong);border-color:var(--surface-strong)}
-.legend .l3{background:var(--hairline-soft);border-color:var(--hairline)}
+/* 가로는 단계(기획 → 운영), 세로는 프로젝트. 첫 열만 폭을 고정하고 일곱 열은 똑같이 나눈다 */
+.scope{display:grid;grid-template-columns:118px repeat(7,minmax(0,1fr));grid-auto-rows:44px;
+  min-width:640px}
+.scope .h{font-size:13px;font-weight:500;color:var(--muted);text-align:center;align-self:end;padding-bottom:8px}
+.scope .rl{font-size:14px;font-weight:600;color:var(--ink);align-self:center}
+/* 같은 담당이 이어지는 단계를 막대 하나로 잇는다 — 막대 길이가 곧 담당 범위다.
+   칸을 채우지 않으니 교차점 착시(헤르만 격자)도 생기지 않는다 */
+.capsule{align-self:center;height:16px;margin:0 4px;border-radius:8px}
+.capsule.own{background:var(--body)}
+.capsule.shared{background:var(--surface-strong)}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.legend{display:flex;flex-wrap:wrap;align-items:center;gap:22px;margin-top:22px;font-size:14px;color:var(--muted)}
+.legend .key{display:inline-block;width:16px;height:8px;border-radius:4px;margin-right:8px;vertical-align:1px}
+.legend .key.own{background:var(--body)}
+.legend .key.shared{background:var(--surface-strong)}
 
 /* ── 그래프 — Cal.com 테크 미니멀리즘 & 동심원 관계망 ──── */
 #graph{position:relative;width:100%;overflow-x:auto;padding:8px 0 16px}
@@ -180,7 +172,7 @@ td span{display:block;width:100%;height:42px;line-height:42px;
 .g-legend{margin-top:14px;font-size:14px;line-height:1.5;color:var(--muted-soft)}
 
 /* ── 프로젝트 (feature-icon-card) ─────────────────── */
-#projects{display:block}
+#projects{display:block;margin-top:40px}
 .proj{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:44px;align-items:start;
   padding:36px 0}
 .proj:first-child{padding-top:0}
@@ -225,14 +217,19 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
   section{padding:56px 0}
   h1{font-size:32px;letter-spacing:-1px}
   .lead{font-size:17px}
-  h2{font-size:24px}
+  h2{font-size:28px;letter-spacing:-.6px}
   .desc,.proj li{font-size:15px}
   .proj{grid-template-columns:1fr;gap:24px;padding:26px 0}
   .proj h3{font-size:20px}
   .matrix{padding:16px}
   .intro{padding:0 0 56px}
-  .intro-cols{grid-template-columns:1fr;gap:32px}
-  .roles{margin-top:0}
+  .roles{grid-template-columns:1fr}
+  .tl{grid-template-columns:1fr;row-gap:20px}
+  .tl::before{display:none}
+  .tl-dot{display:none}
+  .beliefs{grid-template-columns:1fr;gap:36px;margin-top:56px}
+  .roles{margin-top:56px}
+  .intro{padding:8px 0 64px}
   footer{padding:48px 0}
     }
 </style>
@@ -244,52 +241,55 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
     <div>
       <h1>김재준</h1>
       <p class="lead">창작자의 불편을 겪어 본 개발자</p>
-      <p class="lead-sub">제가 부딪힌 문제를, 다른 사람도 계속 쓰는 서비스로 만듭니다.</p>
+      <p class="lead-sub">부딪힌 문제를 함께 쓰는 서비스로 만듭니다.</p>
     </div>
-    <dl class="meta">
-      <div><b>메일</b> <a href="mailto:kimsman@ajou.ac.kr">kimsman@ajou.ac.kr</a></div>
-      <div><b>GitHub</b> <a href="https://github.com/kimsman06" target="_blank" rel="noopener noreferrer">github.com/kimsman06</a></div>
-    </dl>
   </div>
 </header>
 
 <!-- ⓪ 소개 -->
 <section class="intro">
   <div class="wrap">
-    <div class="intro-cols">
-    <div>
     <div class="sec-head"><h2>소개</h2></div>
-    <ol class="timeline">
-      <li><span class="tl-year">2022</span>
-        <div class="tl-body"><p>아주대학교 디지털미디어학과 입학</p></div></li>
-      <li><span class="tl-year">2023</span>
-        <div class="tl-body"><p>공군 입대</p><span>정훈병 · 홍보 사진 촬영</span></div></li>
-      <li><span class="tl-year">2024</span>
-        <div class="tl-body"><p>공군 해커톤 본선 진출</p><span>MCSS · AI 이미지 보안성 검토 체계</span></div></li>
-      <li><span class="tl-year"></span>
-        <div class="tl-body"><p>멀티미디어콘텐츠제작전문가</p><span>취득</span></div></li>
-      <li><span class="tl-year">2026</span>
-        <div class="tl-body"><p>AWS Certified Security – Specialty</p><span>6월 취득</span></div></li>
+    <ol class="tl">
+      <li><span class="tl-year">2022</span><i class="tl-dot"></i>
+        <div class="tl-item"><p>아주대학교 디지털미디어학과 입학</p></div>
+        <div class="tl-item"><p>봉사 동아리 SWeat</p><span>초·고등학교 코딩교육 봉사 · 현재까지</span></div></li>
+      <li><span class="tl-year">2023</span><i class="tl-dot"></i>
+        <div class="tl-item"><p>공군 입대</p><span>정훈병 · 홍보 사진 촬영</span></div></li>
+      <li><span class="tl-year">2024</span><i class="tl-dot"></i>
+        <div class="tl-item"><p>공군 해커톤 본선 진출</p><span>MCSS · AI 이미지 보안성 검토 체계</span></div>
+        <div class="tl-item"><p>멀티미디어콘텐츠제작전문가</p></div></li>
+      <li><span class="tl-year">2026</span><i class="tl-dot"></i>
+        <div class="tl-item"><p>AWS Certified Security – Specialty</p></div></li>
     </ol>
+
+    <div class="beliefs">
+      <div class="belief">
+        <h3>가까운 문제에서 시작합니다</h3>
+        <p>학생 수준에서는 고가의 조명 장비를 이용하기 어려워 조명 시뮬레이터를 만들었습니다. 군에서는 보도자료 사진이 보안성 검토 때문에 늦어지는 것을 보고 AI 보안성 검토 체계를 만들었습니다. 가까운 곳에서 찾은 문제를 다른 사람도 함께 쓸 수 있는 서비스로 만들고 있습니다.</p>
+      </div>
+      <div class="belief">
+        <h3>설명할 수 있어야 안다고 생각합니다</h3>
+        <p>2022년부터 봉사 동아리 SWeat에서 초·고등학교 학생들에게 코딩을 가르치고 있습니다. 설명하다 막히는 부분은 아직 제대로 모르는 부분이었습니다. 그 부분을 다시 공부하게 되어 가르칠수록 많이 배웁니다.</p>
+      </div>
     </div>
 
     <div class="roles">
       <div class="role-item">
         <h3>기획</h3>
-        <p>직접 겪은 문제를 요구사항과 설계 문서로 정리하고, 팀을 이끌어 끝까지 완주합니다.</p>
-        <span>MCSS 팀장 · D.V.D · LumoStage 설계 문서</span>
+        <p>문제를 먼저 정의하고 요구사항으로 정리합니다. 공군 해커톤에서는 4인 팀의 팀장을 맡아 기획을 이끌었고 본선에 진출했습니다.</p>
+        <span>MCSS 팀장 · LumoStage</span>
       </div>
       <div class="role-item">
         <h3>풀스택</h3>
-        <p>Figma 시안을 코드로 옮기고, 편집기처럼 복잡한 화면부터 API 서버와 데이터베이스까지 만듭니다.</p>
-        <span>D.V.D · LumoStage · MCSS · AIM AJOU</span>
+        <p>화면을 Figma로 설계하고 코드로 옮깁니다. 디자인을 이해하고 있어 컴포넌트를 어떻게 나누고 중복을 어떻게 줄일지 빠르게 판단할 수 있습니다.</p>
+        <span>AIM AJOU 디자인 시스템 · D.V.D · LumoStage</span>
       </div>
       <div class="role-item">
-        <h3>클라우드 인프라</h3>
-        <p>컨테이너로 묶어 검사를 통과해야만 배포되게 하고, 매일 백업합니다. AWS 보안 자격을 딴 뒤 직접 서버를 운영하고 있습니다.</p>
-        <span>D.V.D · AWS Security (2026.06)</span>
+        <h3>인프라 설계</h3>
+        <p>AWS 보안 자격을 취득한 뒤 배운 내용을 운영 중인 서비스에 직접 적용했습니다. 서버 구조를 설계하고 배포는 사설망을 통해서만 하도록 했습니다. 백업 권한도 필요한 저장소 하나로 제한했습니다.</p>
+        <span>AWS Security (2026.06) → D.V.D 서버 (2026.09)</span>
       </div>
-    </div>
     </div>
 
   </div>
@@ -301,27 +301,16 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
     <div class="sec-head">
       <h2>프로젝트 × 담당 범위</h2>
     </div>
-    <p class="desc">세로는 서비스가 만들어지고 돌아가기까지의 단계, 가로는 프로젝트입니다. 맡지 않은 단계는 비워 두었습니다.</p>
+    <p class="desc">가로는 기획부터 운영까지의 단계, 세로는 프로젝트입니다. 맡은 단계는 막대로 표시하고 맡지 않은 단계는 비워 두었습니다.</p>
 
     <div class="matrix">
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>D.V.D</th>
-            <th>MCSS</th>
-            <th>LumoStage</th>
-            <th>AIM AJOU</th>
-          </tr>
-        </thead>
-        <tbody id="matrix-body"></tbody>
-      </table>
+      <div class="scope" id="scope"></div>
     </div>
 
     <div class="legend">
-      <span><i class="l1"></i>직접 담당</span>
-      <span><i class="l2"></i>팀과 함께</span>
-      <span><i class="l3"></i>맡지 않음</span>
+      <span><i class="key own"></i>직접 담당</span>
+      <span><i class="key shared"></i>팀과 함께</span>
+      <span>빈칸은 맡지 않은 단계</span>
     </div>
   </div>
 </section>
@@ -330,17 +319,17 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
 <section>
   <div class="wrap">
     <div class="sec-head">
-      <h2>기술 스택 아키텍처 & 프로젝트 관계망</h2>
+      <h2>기술 스택과 프로젝트</h2>
     </div>
-    <p class="desc"><b>React · Tailwind CSS · shadcn/ui</b>는 네 프로젝트 모두에서, <b>Next.js</b>는 세 곳에서 쓴 공통 코어입니다. 그 위에 제품마다 필요한 스택을 더했습니다. <b>MCSS</b>는 짧은 기간에 맞춰 Server Actions로 백엔드 없이 완주했고, <b>LumoStage</b>는 인증·에셋 저장·AI 작업 큐를 맡을 Express 서버를, <b>D.V.D</b>는 데이터 정합성과 배포 자동화를 위해 NestJS·Docker를 세웠습니다.</p>
+    <p class="desc">어떤 프레임워크를 쓰는지보다 어떤 기준으로 고르는지가 더 중요하다고 생각합니다. 서비스에 필요한 것을 먼저 봅니다. AI와 함께 개발해도 구조가 유지되는지도 함께 봅니다.</p>
 
     <div id="graph"></div>
     <div class="g-key">
-      <span><i class="k-core"></i>중심: 공통 코어 프레임워크</span>
-      <span><i class="k1"></i>프레임워크 연계 아키텍처 (실선)</span>
-      <span><i class="k-proj"></i>프로젝트 앵커 (외곽)</span>
+      <span><i class="k-core"></i>가운데: 공통 기반</span>
+      <span><i class="k1"></i>함께 쓴 기술끼리 연결</span>
+      <span><i class="k-proj"></i>프로젝트</span>
     </div>
-    <p class="g-legend">선은 실제 저장소에서 함께 맞물려 동작한 기술끼리 이은 것입니다. 기술이나 프로젝트에 커서를 올리면 어느 프로젝트에서 직접 구축했고 어디서 팀과 함께 했는지 나옵니다.</p>
+    <p class="g-legend">선은 같은 저장소에서 함께 쓴 기술끼리 이었습니다. 기술이나 프로젝트에 커서를 올리면 어디서 직접 만들었고 어디서 팀과 함께 했는지 나옵니다.</p>
   </div>
 </section>
 
@@ -367,7 +356,7 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
 =================================================================== */
 /* 표의 열 순서이기도 하다 — 맡은 단계가 많은 쪽부터 두어 계단으로 읽히게 한다 */
 const PROJECTS = ["D.V.D", "MCSS", "LumoStage", "AIM AJOU"];
-const LAYERS = ["기획", "디자인", "프론트엔드", "백엔드", "데이터", "인프라", "운영"];
+const LAYERS = ["기획", "디자인", "프론트엔드", "백엔드", "DB", "인프라", "운영"];
 
 const SCOPE = {
   "D.V.D":     [2,2,2,2,2,2,2],
@@ -455,12 +444,12 @@ const WORK = [
   {
     name:"MCSS 이미지 보안성 검토 체계",
     role:"2024.06 – 2024.10 · 공군 해커톤 본선 진출 · 4인팀 · 팀장 겸 기획 · 프론트엔드 · 배포",
-    problem:"보도자료 사진의 보안성 검토를 사람이 전부 맡아, 공개가 늦어지고 가릴 부분의 판단 기준도 검토자마다 달랐습니다.",
+    problem:"사람이 하는 보안성 검토로 사진 공개가 늦어지고 블러 기준도 검토자마다 달랐습니다.",
     points:[
-      "탐지부터 검토·승인·기록까지 한 화면에서 끝내도록 설계했습니다.",
-      "4개월이라는 기간을 고려해 별도 백엔드를 두지 않고, 모델 작업과 웹 개발이 동시에 진행되도록 나눴습니다.",
-      "모델이 내놓은 영역을 Canvas에서 직접 다뤄, 사각형이 아니라 실제 형태대로 가릴 수 있게 구현했습니다.",
-      "AI가 가릴 후보를 매번 같은 기준으로 제시하게 하고, 최종 판단은 사람에게 남겼습니다. 늦어지는 문제와 기준이 들쭉날쭉한 문제를 함께 풀기 위해서입니다."
+      "탐지부터 보안성 검토·승인·기록까지 한 화면에서 끝내도록 설계했습니다.",
+      "짧은 기간에 맞춰 백엔드 없이 Next.js로 처리하고 모델과 웹 개발을 병행했습니다.",
+      "모델이 찾은 영역을 사각형이 아닌 실제 형태대로 Canvas에서 블러 처리했습니다.",
+      "AI가 같은 기준으로 블러 후보를 제시하고 최종 판단은 사람이 하도록 설계했습니다."
     ],
     stack:"Next.js · Server Actions · MongoDB · Canvas API · YOLO",
     shot:"images/mcss.png",
@@ -470,11 +459,13 @@ const WORK = [
   {
     name:"LumoStage 웹 조명 시뮬레이터",
     role:"2025.09 – 2026.03 · 혼자 구축",
-    problem:"조명을 익히려면 비싼 장비가 필요해, 장비를 지원받기 어려운 지역의 창작자는 촬영 전에 조명을 시험해 볼 기회가 없었습니다.",
+    problem:"학생들은 고가의 조명 장비를 이용하기 어려워 촬영 전에 조명을 미리 시험해 볼 수 없었습니다.",
     points:[
-      "장비 없이도 촬영 전 조명 배치를 미리 볼 수 있게, 설치 없이 브라우저에서 쓰는 도구로 만들었습니다.",
-      "서버리스 환경에서 토큰 방식이 계속 어긋나자, 원인을 좇다가 세션 방식으로 인증 구조 자체를 바꿨습니다.",
-      "오래 걸리는 생성 작업은 큐로 분리해 응답이 막히지 않게 했습니다."
+      "장비 없이도 조명 배치를 미리 볼 수 있는 브라우저 도구로 만들었습니다.",
+      "검색 노출보다 3D 화면 반응이 중요해 Next.js 대신 React와 Vite를 선택했습니다.",
+      "인증·파일 저장·AI 작업 큐가 필요해 서버는 Express로 따로 구축했습니다.",
+      "서버리스에서 로그인 쿠키가 저장되지 않아 인증을 세션 방식으로 바꿨습니다.",
+      "AI 이미지 생성처럼 오래 걸리는 작업은 큐로 분리해 응답이 늦어지지 않게 했습니다."
     ],
     stack:"React · Three.js · Express · MongoDB · Cloudflare R2 · Vercel",
     shot:"images/lumostage.png",
@@ -484,11 +475,11 @@ const WORK = [
   {
     name:"AIM AJOU 포트폴리오 서비스",
     role:"2025.11 – 현재 · 5인팀 · Figma UI 디자인 · 디자인 시스템 및 프론트엔드",
-    problem:"SW 전공 학생의 프로젝트와 역량이 여기저기 흩어져 있어, 한곳에 정리해 보여줄 방법이 없었습니다.",
+    problem:"SW 전공 학생의 프로젝트와 역량이 흩어져 있고 산업체와 연결할 창구도 없었습니다.",
     points:[
-      "Figma로 서비스 전체 UI와 와이어프레임을 직접 설계하고, 구현과의 시각적 간극을 줄이기 위해 디자인 시스템 프로토타입 레포를 단독 구축했습니다.",
-      "공통 컴포넌트를 먼저 체계화한 뒤 페이지를 구현하여, 디자인 QA 단계의 불일치를 컴포넌트 레벨에서 일괄 해결했습니다.",
-      "팀의 렌더링 전략(공개 페이지 SSG / 인증 내부 CSR)에 맞춰 반응형 프론트엔드 인터페이스를 구현했습니다."
+      "Figma로 서비스 UI를 설계하고 디자인 시스템 저장소를 혼자 만들었습니다.",
+      "공통 컴포넌트를 먼저 만들어 디자인 불일치를 컴포넌트 수정만으로 해결했습니다.",
+      "팀이 정한 렌더링 기준에 맞춰 공개 페이지와 로그인 이후 화면을 나눠 구현했습니다."
     ],
     stack:"Figma · Next.js · TypeScript · Storybook · Radix UI · Firebase Hosting",
     shot:"images/aim.png",
@@ -496,14 +487,14 @@ const WORK = [
           label:"저장소 열기", host:"aim-frontend"}
   },
   {
-    name:"D.V.D 영화제작동아리 웹서비스",
+    name:"D.V.D 영화제작 동아리 포트폴리오 웹서비스",
     role:"2026.05 – 현재 · 혼자 구축 · 운영 중",
-    problem:"동아리의 작품과 수상 기록이 Notion에 갇혀 외부에 공개하기 어려웠고, 해마다 부원이 바뀌며 관리가 끊겼습니다.",
+    problem:"작품 기록은 Notion에만 있었고 졸업생·재학생 소통과 동아리 홍보 창구가 없었습니다.",
     points:[
-      "코드를 모르는 후배도 이어받을 수 있게 편집 화면은 노션처럼 만들고, 인계는 설계 문서로 남겼습니다.",
-      "서버 액션에 흩어져 있던 로직을 API 서버로 분리하고, 엔티티를 다시 설계해 운영 데이터를 옮겼습니다.",
-      "컨테이너로 묶어 클라우드 VM에 올리고, 검사를 통과해야만 배포되도록 파이프라인을 구성했습니다.",
-      "매일 새벽 운영 DB를 오브젝트 스토리지에 자동 백업하고, 복원 절차까지 문서로 남겼습니다."
+      "작품과 수상 기록이 검색에 노출돼야 해 Next.js로 서버 렌더링을 적용했습니다.",
+      "권한·댓글·미디어 기능이 늘어나 NestJS API 서버로 분리하고 데이터를 옮겼습니다.",
+      "컨테이너로 클라우드 VM에 올리고 검사를 통과해야만 배포되게 했습니다.",
+      "매일 새벽 운영 DB를 오브젝트 스토리지에 자동으로 백업하도록 구성했습니다."
     ],
     stack:"Next.js · NestJS · MySQL · Docker · GitHub Actions · Oracle Cloud",
     shot:"images/dvd.png",
@@ -515,25 +506,35 @@ const WORK = [
    ① 매트릭스
 =================================================================== */
 (function matrix(){
-  const tb = document.getElementById("matrix-body");
-  const label = {2:"직접", 1:"공동", 0:""};
-  const cls   = {2:"own", 1:"shared", 0:"none"};
-  LAYERS.forEach((layer, i) => {
-    const tr = document.createElement("tr");
-    const th = document.createElement("th");
-    th.scope = "row"; th.textContent = layer;
-    tr.appendChild(th);
-    PROJECTS.forEach(p => {
-      const v = SCOPE[p][i];
-      const td = document.createElement("td");
-      const sp = document.createElement("span");
-      sp.className = cls[v];
-      sp.textContent = label[v];
-      td.appendChild(sp);
-      tr.appendChild(td);
-    });
-    tb.appendChild(tr);
+  const box = document.getElementById("scope");
+  const cls  = {2:"own", 1:"shared"};
+  const word = {2:"직접 담당", 1:"팀과 함께"};
+
+  // 머리 (단계 이름) — 기획에서 운영까지 왼쪽에서 오른쪽으로
+  box.insertAdjacentHTML("beforeend", "<div></div>" +
+    LAYERS.map(l => `<div class="h">${l}</div>`).join(""));
+  // 프로젝트 이름 — PROJECTS 순서를 그대로 따른다
+  PROJECTS.forEach((p, r) => box.insertAdjacentHTML("beforeend",
+    `<div class="rl" style="grid-row:${r + 2};grid-column:1">${p}</div>`));
+
+  // 같은 값이 이어지는 단계를 캡슐 하나로 묶는다
+  const summary = [];
+  PROJECTS.forEach((p, c) => {
+    const v = SCOPE[p], runs = [];
+    for (let i = 0; i < v.length; ){
+      if (!v[i]){ i++; continue; }
+      let j = i;
+      while (j + 1 < v.length && v[j + 1] === v[i]) j++;
+      box.insertAdjacentHTML("beforeend",
+        `<div class="capsule ${cls[v[i]]}" aria-hidden="true" ` +
+        `style="grid-row:${c + 2};grid-column:${i + 2} / ${j + 3}"></div>`);
+      runs.push(`${LAYERS[i]}${i === j ? "" : "~" + LAYERS[j]} ${word[v[i]]}`);
+      i = j + 1;
+    }
+    summary.push(`${p}: ${runs.join(", ")}`);
   });
+  // 화면 낭독기에는 막대 대신 글로 전한다
+  box.insertAdjacentHTML("beforeend", `<p class="sr-only">${summary.join(". ")}.</p>`);
 })();
 
 /* ===================================================================
@@ -593,26 +594,26 @@ const WORK = [
        - 4 모서리: AIM AJOU, D.V.D, LumoStage, MCSS (프로젝트 앵커) */
     const pos = {
       // Core 4
-      "React":        { a: -135, r: R_CORE, deg: 4, type: "core", cat: "Core UI" },
-      "Next.js":      { a: -45,  r: R_CORE, deg: 4, type: "core", cat: "Core Fullstack" },
-      "shadcn/ui":    { a: 45,   r: R_CORE, deg: 4, type: "core", cat: "Core Design System" },
-      "Tailwind CSS": { a: 135,  r: R_CORE, deg: 4, type: "core", cat: "Core Styling" },
+      "React":        { a: -135, r: R_CORE, deg: 4, type: "core", cat: "화면 구성" },
+      "Next.js":      { a: -45,  r: R_CORE, deg: 4, type: "core", cat: "렌더링 · 서버" },
+      "shadcn/ui":    { a: 45,   r: R_CORE, deg: 4, type: "core", cat: "UI 컴포넌트" },
+      "Tailwind CSS": { a: 135,  r: R_CORE, deg: 4, type: "core", cat: "스타일링" },
 
       // Middle Ring
-      "Figma":          { a: -165, r: R_MID, deg: 3, type: "tech", cat: "UI/UX Design System" },
-      "Tiptap":         { a: -110, r: R_MID, deg: 3, type: "tech", cat: "Rich Text Editor" },
-      "GitHub Actions": { a: -75,  r: 195,   deg: 3, type: "tech", cat: "CI/CD Automation" },
-      "NestJS":         { a: -20,  r: R_MID, deg: 3, type: "tech", cat: "Backend API" },
-      "Express":        { a: 35,   r: 195,   deg: 3, type: "tech", cat: "Node Backend" },
-      "MongoDB":        { a: 95,   r: R_MID, deg: 3, type: "tech", cat: "NoSQL Database" },
-      "Server Actions": { a: 165,  r: 195,   deg: 3, type: "tech", cat: "Fullstack Mutation" },
+      "Figma":          { a: -165, r: R_MID, deg: 3, type: "tech", cat: "디자인" },
+      "Tiptap":         { a: -110, r: R_MID, deg: 3, type: "tech", cat: "문서 편집기" },
+      "GitHub Actions": { a: -75,  r: 195,   deg: 3, type: "tech", cat: "배포 자동화" },
+      "NestJS":         { a: -20,  r: R_MID, deg: 3, type: "tech", cat: "API 서버" },
+      "Express":        { a: 35,   r: 195,   deg: 3, type: "tech", cat: "API 서버" },
+      "MongoDB":        { a: 95,   r: R_MID, deg: 3, type: "tech", cat: "문서형 DB" },
+      "Server Actions": { a: 165,  r: 195,   deg: 3, type: "tech", cat: "간단한 서버 처리" },
 
       // Outer Ring
-      "Vitest":   { a: -65, r: R_OUT, deg: 2, type: "tech", cat: "Testing Framework" },
-      "Docker":   { a: -40, r: R_OUT, deg: 2, type: "tech", cat: "Containerization" },
-      "MySQL":    { a: -10, r: R_OUT, deg: 2, type: "tech", cat: "Relational DB" },
-      "Three.js": { a: 20,  r: R_OUT, deg: 2, type: "tech", cat: "3D WebGL Engine" },
-      "Zustand":  { a: 65,  r: R_OUT, deg: 2, type: "tech", cat: "State Management" },
+      "Vitest":   { a: -65, r: R_OUT, deg: 2, type: "tech", cat: "테스트" },
+      "Docker":   { a: -40, r: R_OUT, deg: 2, type: "tech", cat: "컨테이너" },
+      "MySQL":    { a: -10, r: R_OUT, deg: 2, type: "tech", cat: "관계형 DB" },
+      "Three.js": { a: 20,  r: R_OUT, deg: 2, type: "tech", cat: "3D 렌더링" },
+      "Zustand":  { a: 65,  r: R_OUT, deg: 2, type: "tech", cat: "상태 관리" },
 
       // 4 Projects (Corner Anchors)
       "AIM AJOU":  { a: -140, r: R_PROJ, type: "proj" },
@@ -684,9 +685,9 @@ const WORK = [
       .attr("cx", cx).attr("cy", cy).attr("r", R_CORE + 22);
 
     [
-      { r: R_CORE + 22, label: "공통 코어 (Core)", yOffset: -8 },
-      { r: R_MID + 18,  label: "백엔드 · 데이터 · UI", yOffset: -8 },
-      { r: R_OUT + 18,  label: "인프라 · 3D · 테스트", yOffset: -8 }
+      { r: R_CORE + 22, label: "공통 기반", yOffset: -8 },
+      { r: R_MID + 18,  label: "서비스별 선택", yOffset: -8 },
+      { r: R_OUT + 18,  label: "세부 도구", yOffset: -8 }
     ].forEach(gItem => {
       guide.append("circle").attr("class", "ring")
         .attr("cx", cx).attr("cy", cy).attr("r", gItem.r);
@@ -776,9 +777,9 @@ const WORK = [
       tip.innerHTML = `
         <div class="graph-tooltip-title">
           <span>${d.id}</span>
-          <span class="graph-tooltip-tag">총 ${proStacks.length}개 스택 결합</span>
+          <span class="graph-tooltip-tag">기술 ${proStacks.length}개</span>
         </div>
-        <div class="graph-tooltip-item"><b>아키텍처 스택</b><span>${proStacks.join(" · ")}</span></div>
+        <div class="graph-tooltip-item"><b>사용 기술</b><span>${proStacks.join(" · ")}</span></div>
       `;
     } else {
       const projs = TECH_PROJECTS[d.id] || [];
@@ -792,8 +793,8 @@ const WORK = [
           <span class="graph-tooltip-tag">${d.cat || (d.deg === 4 ? "코어 프레임워크" : "연계 스택")}</span>
         </div>
         ${solo.length ? `<div class="graph-tooltip-item"><b>직접 구축</b><span>${solo.join(", ")}</span></div>` : ""}
-        ${team.length ? `<div class="graph-tooltip-item"><b>팀 협업</b><span>${team.join(", ")}</span></div>` : ""}
-        ${neighbors.length ? `<div class="graph-tooltip-item"><b>연계 프레임워크</b><span>${neighbors.join(", ")}</span></div>` : ""}
+        ${team.length ? `<div class="graph-tooltip-item"><b>팀과 함께</b><span>${team.join(", ")}</span></div>` : ""}
+        ${neighbors.length ? `<div class="graph-tooltip-item"><b>함께 쓴 기술</b><span>${neighbors.join(", ")}</span></div>` : ""}
       `;
     }
     tip.classList.add("show");
