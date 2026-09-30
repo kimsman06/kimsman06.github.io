@@ -220,13 +220,18 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
   h2{font-size:28px;letter-spacing:-.6px}
   .desc,.proj li{font-size:15px}
   .proj{grid-template-columns:1fr;gap:24px;padding:26px 0}
+  .proj-card{max-width:420px}
   .proj h3{font-size:20px}
   .matrix{padding:16px}
   .intro{padding:0 0 56px}
   .roles{grid-template-columns:1fr}
-  .tl{grid-template-columns:1fr;row-gap:20px}
-  .tl::before{display:none}
-  .tl-dot{display:none}
+  /* 좁은 화면에서는 연표를 세로로 — 점은 왼쪽에, 선은 점을 따라 아래로 이어지며 흐려진다 */
+  .tl{grid-template-columns:1fr;row-gap:0;margin-top:20px}
+  .tl::before{left:6px;right:auto;top:8px;bottom:0;width:1.5px;height:auto;
+    background:linear-gradient(180deg,var(--hairline) 0,var(--hairline) 85%,transparent 100%)}
+  .tl li{padding:0 0 28px 32px}
+  .tl-dot{position:absolute;left:0;top:4px;margin:0}
+  .tl-year{height:auto;margin-bottom:6px}
   .beliefs{grid-template-columns:1fr;gap:36px;margin-top:56px}
   .roles{margin-top:56px}
   .intro{padding:8px 0 64px}
@@ -253,7 +258,7 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
     <ol class="tl">
       <li><span class="tl-year">2022</span><i class="tl-dot"></i>
         <div class="tl-item"><p>아주대학교 디지털미디어학과 입학</p></div>
-        <div class="tl-item"><p>봉사 동아리 SWeat</p><span>초·고등학교 코딩교육 봉사 · 현재까지</span></div></li>
+        <div class="tl-item"><p>코딩 교육 봉사 동아리 SWeat</p><span>초·고등학교 대상 · 현재까지</span></div></li>
       <li><span class="tl-year">2023</span><i class="tl-dot"></i>
         <div class="tl-item"><p>공군 입대</p><span>정훈병 · 홍보 사진 촬영</span></div></li>
       <li><span class="tl-year">2024</span><i class="tl-dot"></i>
@@ -270,7 +275,7 @@ footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
       </div>
       <div class="belief">
         <h3>설명할 수 있어야 안다고 생각합니다</h3>
-        <p>2022년부터 봉사 동아리 SWeat에서 초·고등학교 학생들에게 코딩을 가르치고 있습니다. 설명하다 막히는 부분은 아직 제대로 모르는 부분이었습니다. 그 부분을 다시 공부하게 되어 가르칠수록 많이 배웁니다.</p>
+        <p>2022년부터 코딩 교육 봉사 동아리 SWeat에서 초·고등학교 학생들에게 코딩을 가르치고 있습니다. 설명하다 막히는 부분은 아직 제대로 모르는 부분이었습니다. 그 부분을 다시 공부하게 되어 가르칠수록 많이 배웁니다.</p>
       </div>
     </div>
 
