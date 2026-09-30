@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>김재준 — 창작자의 불편을 겪어 본 개발자</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" as="style" crossorigin
+  href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+:root{
+  color-scheme:light;
+  /* Cal.com — 흰 캔버스, 근검정 액션, 연회색 카드, 닫아 주는 어두운 푸터 */
+  --primary:#111111;        --primary-active:#242424;
+  --ink:#111111;            --body:#374151;
+  --muted:#6b7280;          --muted-soft:#898989;
+  --hairline:#e5e7eb;       --hairline-soft:#f3f4f6;
+  --canvas:#ffffff;         --surface-soft:#f8f9fa;
+  --surface-card:#f5f5f5;   --surface-strong:#e5e7eb;
+  --surface-dark:#101010;   --surface-dark-elevated:#1a1a1a;
+  --on-primary:#ffffff;     --on-dark:#ffffff;  --on-dark-soft:#a1a1aa;
+  --brand-accent:#3b82f6;   /* 인라인 링크에만 아껴 쓴다 */
+  --r-sm:6px; --r-md:8px; --r-lg:12px; --r-xl:16px; --r-pill:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.05);
+  --shadow-md:0 4px 12px rgba(0,0,0,.08);
+}
+
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--canvas); color:var(--body);
+  font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,
+    system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px; font-weight:400; line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+a{color:var(--brand-accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* ── 밴드 — 흰색과 연회색을 번갈아 쌓는다 ─────────────── */
+section{padding:96px 0}
+.band{background:var(--surface-soft)}
+
+/* ── 헤더 (hero-band) ─────────────────────────────── */
+header{padding:96px 0 72px;background:var(--canvas)}
+.head-grid{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between;align-items:flex-end}
+.eyebrow{font-size:13px;font-weight:500;line-height:1.4;color:var(--muted);margin:0 0 16px}
+/* Cal Sans 대역 — Pretendard 600 + 음수 자간 (가이드의 대체 지침) */
+h1{font-size:48px;font-weight:600;line-height:1.1;letter-spacing:-1.5px;color:var(--ink);margin:0 0 14px}
+.lead{font-size:22px;font-weight:600;line-height:1.3;letter-spacing:-.3px;color:var(--ink);margin:0}
+.lead-sub{font-size:16px;font-weight:400;line-height:1.5;color:var(--body);margin:8px 0 0}
+.meta{font-size:14px;font-weight:400;line-height:1.5;color:var(--muted);display:grid;gap:6px;min-width:260px}
+.meta b{font-weight:500;color:var(--muted-soft);display:inline-block;width:56px}
+
+/* ── 소개 ──────────────────────────────────────────── */
+.intro{padding:8px 0 96px}
+.roles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+.role-item{background:var(--surface-soft);border-radius:var(--r-lg);padding:22px 24px}
+.role-item h3{font-size:16px;font-weight:600;color:var(--ink);margin:0 0 6px}
+.role-item p{font-size:14px;line-height:1.55;color:var(--body);margin:0 0 12px}
+.role-item span{font-size:12px;font-weight:500;color:var(--muted-soft)}
+.profile{display:grid;gap:10px;margin:8px 0 0;font-size:16px;line-height:1.5}
+.profile div{display:flex;gap:20px}
+.profile dt{flex:0 0 44px;color:var(--muted-soft);font-weight:500}
+.profile dd{margin:0;color:var(--body)}
+
+/* ── 섹션 제목 (display-sm) ───────────────────────── */
+.sec-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:12px}
+h2{font-size:28px;font-weight:600;line-height:1.2;letter-spacing:-.5px;color:var(--ink);margin:0}
+.note{font-size:13px;font-weight:500;color:var(--muted-soft);margin:0}
+.desc{font-size:16px;font-weight:400;line-height:1.5;color:var(--body);margin:0 0 32px}
+
+/* ── 매트릭스 (product-mockup-card) ───────────────── */
+.matrix{background:var(--canvas);border:1px solid var(--hairline);border-radius:var(--r-lg);
+  padding:24px;overflow-x:auto;box-shadow:var(--shadow-sm)}
+table{border-collapse:separate;border-spacing:0;table-layout:fixed;
+  width:100%;min-width:640px;font-size:14px}
+th,td{padding:0}
+thead th{font-weight:600;font-size:14px;color:var(--ink);padding:0 3px 10px;text-align:center}
+thead th:first-child{background:transparent}
+/* 첫 열만 폭을 고정하면, fixed 배치가 나머지 네 열을 똑같이 나눠 가진다 */
+thead th:first-child,tbody th{width:118px}
+tbody th{font-weight:500;font-size:14px;color:var(--muted);text-align:left;
+  padding:0 18px 0 0;white-space:nowrap}
+tbody td{padding:3px;text-align:center}
+/* 칸마다 떼어 놓는다 — 붙여 두면 옆 칸과 한 덩어리로 읽힌다 */
+td span{display:block;width:100%;height:42px;line-height:42px;
+  font-size:13px;font-weight:500;border-radius:var(--r-sm)}
+/* 칸이 많아 근검정은 지면을 눌러 버린다 — 한 단계 낮춘 body 톤으로 채운다 */
+.own{background:var(--body);color:var(--on-primary);font-weight:500}
+.shared{background:var(--surface-strong);color:var(--muted)}
+.none{background:var(--hairline-soft);color:var(--muted-soft)}
+.legend{display:flex;flex-wrap:wrap;gap:22px;margin-top:22px;font-size:14px;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;margin-right:8px;vertical-align:-1px;
+  border-radius:3px;border:1px solid var(--hairline)}
+.legend .l1{background:var(--body);border-color:var(--body)}
+.legend .l2{background:var(--surface-strong);border-color:var(--surface-strong)}
+.legend .l3{background:var(--hairline-soft);border-color:var(--hairline)}
+
+/* ── 그래프 — Cal.com 테크 미니멀리즘 & 동심원 관계망 ──── */
+#graph{position:relative;width:100%;overflow-x:auto;padding:8px 0 16px}
+#graph svg{display:block;min-width:680px;width:100%;max-width:920px;margin:0 auto;height:auto;overflow:visible}
+
+/* 가이드 링 & 구역 라벨 */
+.ring{fill:none;stroke:var(--hairline);stroke-width:1;stroke-dasharray:3 5}
+.ring-core{fill:var(--surface-soft);opacity:0.45}
+.ring-label{font-size:11px;font-weight:600;letter-spacing:0.3px;fill:var(--muted-soft);
+  paint-order:stroke;stroke:var(--canvas);stroke-width:3px;stroke-linejoin:round}
+
+/* 베지어 곡선 연결선 (Links) */
+.link{fill:none;transition:stroke 0.2s ease, stroke-width 0.2s ease, stroke-opacity 0.2s ease}
+.link.solo{stroke:var(--ink);stroke-width:1.2;stroke-opacity:0.18}
+.link.team{stroke:var(--muted);stroke-width:1.1;stroke-opacity:0.22;stroke-dasharray:3 4}
+.link.active{stroke-opacity:0.95}
+.link.active.solo{stroke:var(--ink);stroke-width:2.4;stroke-opacity:1}
+.link.active.team{stroke:var(--body);stroke-width:2;stroke-dasharray:4 4;stroke-opacity:1}
+.link.dim{stroke-opacity:0.04 !important}
+
+/* 노드 공통 */
+.node{cursor:pointer;transition:transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s ease}
+.node.dim{opacity:0.16}
+
+/* 알약 뱃지 (Pill Badges) */
+.node rect{rx:13px;ry:13px;transition:all 0.18s ease}
+.node text{font-size:12px;text-anchor:middle;dominant-baseline:central;pointer-events:none;font-family:inherit}
+
+/* 4개 프로젝트 코어 (중심 링: React, Next.js, Tailwind, shadcn) */
+.node.core rect, .node.deg-4:not(.proj) rect{fill:var(--ink) !important;stroke:var(--ink) !important;stroke-width:1.5px;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.14))}
+.node.core text, .node.deg-4:not(.proj) text{fill:#ffffff !important;font-weight:600;text-anchor:middle !important;dominant-baseline:central !important}
+
+/* 3개 프로젝트 연계 (중간 링) */
+.node.deg-3:not(.proj) rect{fill:var(--canvas);stroke:var(--ink);stroke-width:1.5px;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.06))}
+.node.deg-3:not(.proj) text{fill:var(--ink);font-weight:600}
+
+/* 2개 프로젝트 특화 (외곽 링) */
+.node.deg-2:not(.proj) rect{fill:var(--canvas);stroke:var(--hairline);stroke-width:1.2px;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.04))}
+.node.deg-2:not(.proj) text{fill:var(--body);font-weight:500}
+
+/* 호버/활성 상태 */
+.node:not(.proj):hover rect, .node:not(.proj).active rect{stroke:var(--ink);stroke-width:2px;filter:drop-shadow(0 4px 10px rgba(0,0,0,0.15))}
+.node.core:hover text, .node.core.active text, .node.deg-4:not(.proj):hover text, .node.deg-4:not(.proj).active text{fill:#ffffff !important}
+
+/* 프로젝트 노드 (외곽 4개) */
+.node.proj rect{fill:var(--canvas);stroke:var(--ink);stroke-width:2px;rx:16px;ry:16px;
+  filter:drop-shadow(0 2px 6px rgba(0,0,0,0.08));transition:all 0.18s ease}
+.node.proj text{font-size:13.5px;font-weight:700;letter-spacing:-0.2px;fill:var(--ink);
+  text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.node.proj:hover rect, .node.proj.active rect{fill:var(--ink);stroke:var(--ink);
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,0.2))}
+.node.proj:hover text, .node.proj.active text{fill:#ffffff !important}
+
+/* 커스텀 툴팁 카드 */
+.graph-tooltip{position:absolute;pointer-events:none;opacity:0;transition:opacity 0.15s ease, transform 0.15s ease;
+  background:var(--canvas);border:1px solid var(--hairline);box-shadow:var(--shadow-md);
+  border-radius:var(--r-md);padding:10px 14px;font-size:12px;color:var(--body);z-index:20;
+  max-width:280px;line-height:1.45}
+.graph-tooltip.show{opacity:1}
+.graph-tooltip-title{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.graph-tooltip-tag{font-size:11px;font-weight:500;padding:2px 7px;border-radius:var(--r-pill);background:var(--surface-soft);color:var(--muted)}
+.graph-tooltip-item{margin-top:4px;display:flex;align-items:baseline;gap:6px}
+.graph-tooltip-item b{font-weight:600;color:var(--ink);white-space:nowrap;font-size:11.5px}
+.graph-tooltip-item span{color:var(--body);font-size:12px}
+
+.g-key{display:flex;flex-wrap:wrap;gap:24px;margin-top:18px;font-size:14px;color:var(--muted);align-items:center}
+.g-key i{display:inline-block;margin-right:8px}
+.g-key .k-core{width:12px;height:12px;vertical-align:-1px;border-radius:3px;background:var(--ink)}
+.g-key .k1{width:24px;height:0;vertical-align:4px;border-top:1.8px solid var(--ink);opacity:.7}
+.g-key .k-proj{width:14px;height:14px;vertical-align:-2px;border-radius:4px;border:1.8px solid var(--ink);background:var(--canvas)}
+.g-legend{margin-top:14px;font-size:14px;line-height:1.5;color:var(--muted-soft)}
+
+/* ── 프로젝트 (feature-icon-card) ─────────────────── */
+#projects{display:block}
+.proj{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:44px;align-items:start;
+  padding:36px 0}
+.proj:first-child{padding-top:0}
+.proj h3{font-size:22px;font-weight:600;line-height:1.3;letter-spacing:-.3px;color:var(--ink);margin:0 0 6px}
+.proj .role{font-size:13px;font-weight:500;color:var(--muted-soft);margin:0 0 18px}
+.proj .problem{font-size:16px;font-weight:500;line-height:1.55;color:var(--ink);margin:0 0 16px}
+.proj .problem span{display:block;font-size:12px;font-weight:600;color:var(--muted-soft);margin-bottom:4px}
+.proj ul{margin:0;padding-left:0;list-style:none}
+.proj li{position:relative;font-size:16px;line-height:1.5;color:var(--body);
+  padding-left:18px;margin-bottom:10px}
+.proj li::before{content:"";position:absolute;left:3px;top:.62em;
+  width:5px;height:5px;border-radius:50%;background:var(--muted-soft)}
+.stack{margin-top:16px;font-size:13px;font-weight:500;color:var(--muted)}
+
+/* ── 오른쪽 카드 (product-mockup-card) ────────────── */
+.proj-card{display:block;background:var(--canvas);border:1px solid var(--hairline);
+  border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);
+  text-decoration:none;color:inherit}
+a.proj-card:hover{box-shadow:var(--shadow-md);text-decoration:none}
+.shot{margin:0;aspect-ratio:16/10;background:var(--surface-card);
+  display:flex;align-items:center;justify-content:center}
+.shot img{width:100%;height:100%;object-fit:cover;display:block}
+.shot .ph{font-size:13px;font-weight:500;color:var(--muted-soft)}
+.proj-card-foot{display:flex;align-items:baseline;justify-content:space-between;gap:12px;
+  padding:13px 16px;font-size:13px;font-weight:500}
+.proj-card-label{color:var(--ink);white-space:nowrap}
+.proj-card-label.off{color:var(--muted-soft)}
+.proj-card-host{color:var(--muted-soft);font-size:12px;font-weight:400;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.foot{display:flex;flex-wrap:wrap;gap:8px 24px;align-items:baseline}
+.foot strong{color:var(--on-dark);font-weight:600}
+.foot a{color:var(--on-dark-soft)}
+
+/* ── 푸터 — 유일한 어두운 면. 페이지를 닫는다 ────────── */
+footer{background:var(--surface-dark);color:var(--on-dark-soft);padding:64px 0;
+  font-size:14px;line-height:1.5}
+
+@media (max-width:768px){
+  .wrap{padding:0 24px}
+  header{padding:56px 0 44px}
+  section{padding:56px 0}
+  h1{font-size:32px;letter-spacing:-1px}
+  .lead{font-size:17px}
+  h2{font-size:24px}
+  .desc,.proj li{font-size:15px}
+  .proj{grid-template-columns:1fr;gap:24px;padding:26px 0}
+  .proj h3{font-size:20px}
+  .matrix{padding:16px}
+  .intro{padding:0 0 56px}
+  .roles{grid-template-columns:1fr}
+  footer{padding:48px 0}
+    }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap head-grid">
+    <div>
+      <p class="eyebrow">아주대학교 디지털미디어학과</p>
+      <h1>김재준</h1>
+      <p class="lead">창작자의 불편을 겪어 본 개발자</p>
+      <p class="lead-sub">겪은 문제를 기획으로 정리하고, 화면부터 서버와 클라우드까지 직접 만들어 운영합니다.</p>
+    </div>
+    <dl class="meta">
+      <div><b>메일</b> <a href="mailto:kimsman@ajou.ac.kr">kimsman@ajou.ac.kr</a></div>
+      <div><b>GitHub</b> <a href="https://github.com/kimsman06" target="_blank" rel="noopener noreferrer">github.com/kimsman06</a></div>
+    </dl>
+  </div>
+</header>
+
+<!-- ⓪ 소개 -->
+<section class="intro">
+  <div class="wrap">
+    <div class="sec-head"><h2>소개</h2></div>
+    <dl class="profile">
+      <div><dt>배경</dt><dd>고등학교 영화제작동아리 D.V.D 창단 초기 멤버 · 공군 정훈병 (홍보 사진 촬영)</dd></div>
+      <div><dt>전공</dt><dd>아주대학교 디지털미디어학과 · 데이터보안 부전공</dd></div>
+      <div><dt>자격</dt><dd>AWS Certified Security – Specialty (2026.06) · 멀티미디어콘텐츠제작전문가</dd></div>
+    </dl>
+
+    <div class="roles">
+      <div class="role-item">
+        <h3>기획</h3>
+        <p>직접 겪은 문제를 요구사항과 설계 문서로 정리하고, 팀을 이끌어 끝까지 완주합니다.</p>
+        <span>MCSS 팀장 · D.V.D · LumoStage 설계 문서</span>
+      </div>
+      <div class="role-item">
+        <h3>풀스택</h3>
+        <p>Figma 시안을 코드로 옮기고, 편집기처럼 복잡한 화면부터 API 서버와 데이터베이스까지 만듭니다.</p>
+        <span>D.V.D · LumoStage · MCSS · AIM AJOU</span>
+      </div>
+      <div class="role-item">
+        <h3>클라우드 인프라</h3>
+        <p>컨테이너로 묶어 검사를 통과해야만 배포되게 하고, 매일 백업합니다. AWS 보안 자격을 딴 뒤 직접 서버를 운영하고 있습니다.</p>
+        <span>D.V.D · AWS Security (2026.06)</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ① 담당 범위 매트릭스 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>프로젝트 × 담당 범위</h2>
+    </div>
+    <p class="desc">세로는 서비스가 만들어지고 돌아가기까지의 단계, 가로는 프로젝트입니다. 맡지 않은 단계는 비워 두었습니다.</p>
+
+    <div class="matrix">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>D.V.D</th>
+            <th>MCSS</th>
+            <th>LumoStage</th>
+            <th>AIM AJOU</th>
+          </tr>
+        </thead>
+        <tbody id="matrix-body"></tbody>
+      </table>
+    </div>
+
+    <div class="legend">
+      <span><i class="l1"></i>직접 담당</span>
+      <span><i class="l2"></i>팀과 함께</span>
+      <span><i class="l3"></i>맡지 않음</span>
+    </div>
+  </div>
+</section>
+
+<!-- ② 노드 그래프 -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>기술 스택 아키텍처 & 프로젝트 관계망</h2>
+    </div>
+    <p class="desc"><b>React · Tailwind CSS · shadcn/ui</b>는 네 프로젝트 모두에서, <b>Next.js</b>는 세 곳에서 쓴 공통 코어입니다. 그 위에 제품마다 필요한 스택을 더했습니다. <b>MCSS</b>는 짧은 기간에 맞춰 Server Actions로 백엔드 없이 완주했고, <b>LumoStage</b>는 인증·에셋 저장·AI 작업 큐를 맡을 Express 서버를, <b>D.V.D</b>는 데이터 정합성과 배포 자동화를 위해 NestJS·Docker를 세웠습니다.</p>
+
+    <div id="graph"></div>
+    <div class="g-key">
+      <span><i class="k-core"></i>중심: 공통 코어 프레임워크</span>
+      <span><i class="k1"></i>프레임워크 연계 아키텍처 (실선)</span>
+      <span><i class="k-proj"></i>프로젝트 앵커 (외곽)</span>
+    </div>
+    <p class="g-legend">선은 실제 저장소에서 함께 맞물려 동작한 기술끼리 이은 것입니다. 기술이나 프로젝트에 커서를 올리면 어느 프로젝트에서 직접 구축했고 어디서 팀과 함께 했는지 나옵니다.</p>
+  </div>
+</section>
+
+<!-- ③ 프로젝트 -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head"><h2>프로젝트</h2></div>
+    <div id="projects"></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <strong>김재준</strong>
+    <a href="mailto:kimsman@ajou.ac.kr">kimsman@ajou.ac.kr</a>
+    <a href="https://github.com/kimsman06" target="_blank" rel="noopener noreferrer">github.com/kimsman06</a>
+  </div>
+</footer>
+
+<script>
+/* ===================================================================
+   데이터 — 실제 기록에서 확인되는 값만 둔다.
+   2 = 직접 담당 / 1 = 팀과 함께 / 0 = 맡지 않음
+=================================================================== */
+/* 표의 열 순서이기도 하다 — 맡은 단계가 많은 쪽부터 두어 계단으로 읽히게 한다 */
+const PROJECTS = ["D.V.D", "MCSS", "LumoStage", "AIM AJOU"];
+const LAYERS = ["기획", "디자인", "프론트엔드", "백엔드", "데이터", "인프라", "운영"];
+
+const SCOPE = {
+  "D.V.D":     [2,2,2,2,2,2,2],
+  "MCSS":      [2,2,2,2,2,2,0],
+  "AIM AJOU":  [1,2,2,0,0,1,0],
+  "LumoStage": [2,2,2,2,2,2,0]
+};
+
+/* 실제 프로젝트에서 구축·활용한 핵심 기술 스택 */
+const TECH = [
+  "React", "Next.js", "Tailwind CSS", "shadcn/ui",
+  "Figma", "NestJS", "Express", "MongoDB", "MySQL",
+  "Server Actions", "Three.js", "Zustand", "Tiptap",
+  "Docker", "GitHub Actions", "Vitest"
+];
+
+/* 각 기술 스택의 프로젝트별 사용처 및 담당 (1: 직접 구축 / 0: 팀 협업)
+   저장소 기록으로 확인되는 것만 둔다.
+   - Figma: 커밋으로 확인되는 곳은 AIM AJOU뿐이다.
+   - GitHub Actions: AIM AJOU의 워크플로는 팀원이 작성해 본인 기여가 없다. */
+const TECH_PROJECTS = {
+  "React":          [["D.V.D", 1], ["MCSS", 1], ["LumoStage", 1], ["AIM AJOU", 0]],
+  "Next.js":        [["D.V.D", 1], ["MCSS", 1], ["AIM AJOU", 0]],
+  "Tailwind CSS":   [["D.V.D", 1], ["MCSS", 1], ["LumoStage", 1], ["AIM AJOU", 0]],
+  "shadcn/ui":      [["D.V.D", 1], ["MCSS", 1], ["LumoStage", 1], ["AIM AJOU", 1]],
+  "Figma":          [["AIM AJOU", 1]],
+  "Server Actions": [["D.V.D", 1], ["MCSS", 1]],
+  "NestJS":         [["D.V.D", 1]],
+  "Express":        [["LumoStage", 1]],
+  "MongoDB":        [["MCSS", 1], ["LumoStage", 1]],
+  "MySQL":          [["D.V.D", 1]],
+  "Three.js":       [["LumoStage", 1]],
+  "Zustand":        [["LumoStage", 1]],
+  "Tiptap":         [["D.V.D", 1], ["AIM AJOU", 1]],
+  "Docker":         [["D.V.D", 1]],
+  "GitHub Actions": [["D.V.D", 1]],
+  "Vitest":         [["D.V.D", 1]]
+};
+
+/* 기술 스택 사이의 실제 아키텍처 결합 관계 (Tech-to-Tech links) */
+const TECH_LINKS = [
+  // 코어 프론트엔드 연계
+  ["Next.js", "React"],
+  ["Next.js", "Tailwind CSS"],
+  ["React", "Tailwind CSS"],
+  ["Tailwind CSS", "shadcn/ui"],
+  ["React", "shadcn/ui"],
+  ["Next.js", "shadcn/ui"],
+
+  // 디자인 & 디자인 시스템 (Figma)
+  ["Figma", "shadcn/ui"],
+  ["Figma", "Tailwind CSS"],
+  ["Figma", "React"],
+
+  // 프론트 확장 및 에디터/3D
+  ["Next.js", "Tiptap"],
+  ["Tiptap", "shadcn/ui"],
+  ["React", "Three.js"],
+  ["Three.js", "Zustand"],
+  ["React", "Zustand"],
+
+  // 풀스택 & 백엔드 연동
+  ["Next.js", "Server Actions"],
+  ["Server Actions", "MongoDB"],
+  ["Next.js", "NestJS"],
+  ["Express", "MongoDB"],
+  ["Express", "React"],
+  ["Express", "Three.js"],
+
+  // 백엔드 & 데이터베이스
+  ["NestJS", "MySQL"],
+
+  // 인프라 & CI/CD
+  ["NestJS", "Docker"],
+  ["MySQL", "Docker"],
+  ["Next.js", "GitHub Actions"],
+  ["Docker", "GitHub Actions"],
+  ["NestJS", "Vitest"],
+  ["GitHub Actions", "Vitest"]
+];
+
+/* 시간순 — 서버 없이 → 서버 분리 → 팀 협업 → 직접 운영으로 한 겹씩 내려간다.
+   problem은 해결하려던 문제다 — 계기는 본인 확인 (저장소가 아니라 본인 확인, PROJECT-RESEARCH.md §7). */
+const WORK = [
+  {
+    name:"MCSS 이미지 보안성 검토 체계",
+    role:"2024.06 – 2024.10 · 공군 해커톤 본선 진출 · 4인팀 · 팀장 겸 기획 · 프론트엔드 · 배포",
+    problem:"보도자료 사진의 보안성 검토를 사람이 전부 맡아, 공개가 늦어지고 가릴 부분의 판단 기준도 검토자마다 달랐습니다.",
+    points:[
+      "탐지부터 검토·승인·기록까지 한 화면에서 끝내도록 설계했습니다.",
+      "4개월이라는 기간을 고려해 별도 백엔드를 두지 않고, 모델 작업과 웹 개발이 동시에 진행되도록 나눴습니다.",
+      "모델이 내놓은 영역을 Canvas에서 직접 다뤄, 사각형이 아니라 실제 형태대로 가릴 수 있게 구현했습니다.",
+      "AI가 가릴 후보를 매번 같은 기준으로 제시하게 하고, 최종 판단은 사람에게 남겼습니다. 늦어지는 문제와 기준이 들쭉날쭉한 문제를 함께 풀기 위해서입니다."
+    ],
+    stack:"Next.js · Server Actions · MongoDB · Canvas API · YOLO",
+    shot:"images/mcss.png",
+    link:{href:"https://drive.google.com/file/d/1_ndPQVcEcEqx2j0d9mEwId1WTb_StyHW/view?usp=sharing",
+          label:"발표 자료 (PDF)", host:"Google Drive"}
+  },
+  {
+    name:"LumoStage 웹 조명 시뮬레이터",
+    role:"2025.09 – 2026.03 · 혼자 구축",
+    problem:"조명을 익히려면 비싼 장비가 필요해, 장비를 지원받기 어려운 지역의 창작자는 촬영 전에 조명을 시험해 볼 기회가 없었습니다.",
+    points:[
+      "장비 없이도 촬영 전 조명 배치를 미리 볼 수 있게, 설치 없이 브라우저에서 쓰는 도구로 만들었습니다.",
+      "서버리스 환경에서 토큰 방식이 계속 어긋나자, 원인을 좇다가 세션 방식으로 인증 구조 자체를 바꿨습니다.",
+      "오래 걸리는 생성 작업은 큐로 분리해 응답이 막히지 않게 했습니다."
+    ],
+    stack:"React · Three.js · Express · MongoDB · Cloudflare R2 · Vercel",
+    shot:"images/lumostage.png",
+    link:{href:"https://github.com/kimsman06/lumo-stage",
+          label:"저장소 열기", host:"lumo-stage"}
+  },
+  {
+    name:"AIM AJOU 포트폴리오 서비스",
+    role:"2025.11 – 현재 · 5인팀 · Figma UI 디자인 · 디자인 시스템 및 프론트엔드",
+    problem:"SW 전공 학생의 프로젝트와 역량이 여기저기 흩어져 있어, 한곳에 정리해 보여줄 방법이 없었습니다.",
+    points:[
+      "Figma로 서비스 전체 UI와 와이어프레임을 직접 설계하고, 구현과의 시각적 간극을 줄이기 위해 디자인 시스템 프로토타입 레포를 단독 구축했습니다.",
+      "공통 컴포넌트를 먼저 체계화한 뒤 페이지를 구현하여, 디자인 QA 단계의 불일치를 컴포넌트 레벨에서 일괄 해결했습니다.",
+      "팀의 렌더링 전략(공개 페이지 SSG / 인증 내부 CSR)에 맞춰 반응형 프론트엔드 인터페이스를 구현했습니다."
+    ],
+    stack:"Figma · Next.js · TypeScript · Storybook · Radix UI · Firebase Hosting",
+    shot:"images/aim.png",
+    link:{href:"https://github.com/ajou-industry-matching/aim-frontend",
+          label:"저장소 열기", host:"aim-frontend"}
+  },
+  {
+    name:"D.V.D 영화제작동아리 웹서비스",
+    role:"2026.05 – 현재 · 혼자 구축 · 운영 중",
+    problem:"동아리의 작품과 수상 기록이 Notion에 갇혀 외부에 공개하기 어려웠고, 해마다 부원이 바뀌며 관리가 끊겼습니다.",
+    points:[
+      "코드를 모르는 후배도 이어받을 수 있게 편집 화면은 노션처럼 만들고, 인계는 설계 문서로 남겼습니다.",
+      "서버 액션에 흩어져 있던 로직을 API 서버로 분리하고, 엔티티를 다시 설계해 운영 데이터를 옮겼습니다.",
+      "컨테이너로 묶어 클라우드 VM에 올리고, 검사를 통과해야만 배포되도록 파이프라인을 구성했습니다.",
+      "매일 새벽 운영 DB를 오브젝트 스토리지에 자동 백업하고, 복원 절차까지 문서로 남겼습니다."
+    ],
+    stack:"Next.js · NestJS · MySQL · Docker · GitHub Actions · Oracle Cloud",
+    shot:"images/dvd.png",
+    link:{href:"https://dvdfilm.kro.kr", label:"사이트 열기", host:"dvdfilm.kro.kr"}
+  }
+];
+
+/* ===================================================================
+   ① 매트릭스
+=================================================================== */
+(function matrix(){
+  const tb = document.getElementById("matrix-body");
+  const label = {2:"직접", 1:"공동", 0:""};
+  const cls   = {2:"own", 1:"shared", 0:"none"};
+  LAYERS.forEach((layer, i) => {
+    const tr = document.createElement("tr");
+    const th = document.createElement("th");
+    th.scope = "row"; th.textContent = layer;
+    tr.appendChild(th);
+    PROJECTS.forEach(p => {
+      const v = SCOPE[p][i];
+      const td = document.createElement("td");
+      const sp = document.createElement("span");
+      sp.className = cls[v];
+      sp.textContent = label[v];
+      td.appendChild(sp);
+      tr.appendChild(td);
+    });
+    tb.appendChild(tr);
+  });
+})();
+
+/* ===================================================================
+   ② 노드 그래프 (기술 스택 아키텍처 & 프로젝트 관계망)
+=================================================================== */
+(function graph(){
+  const el = document.getElementById("graph");
+  let active = null;   // 고정된 프로젝트 또는 기술 노드
+  let hovered = null;  // 마우스 호버 노드
+
+  // 프로젝트별 기술 스택 매핑
+  const PROJ_TECH = {};
+  PROJECTS.forEach(p => PROJ_TECH[p] = new Set());
+  for (const [tech, projs] of Object.entries(TECH_PROJECTS)) {
+    projs.forEach(([p]) => {
+      if (PROJ_TECH[p]) PROJ_TECH[p].add(tech);
+    });
+  }
+
+  // 기술 스택 간 링크 데이터
+  const techLinks = TECH_LINKS.map(([s, t]) => ({ source: s, target: t }));
+
+  // 기술별 인접 기술 맵
+  const techNeighbors = {};
+  TECH.forEach(t => techNeighbors[t] = new Set());
+  TECH_LINKS.forEach(([s, t]) => {
+    if (techNeighbors[s]) techNeighbors[s].add(t);
+    if (techNeighbors[t]) techNeighbors[t].add(s);
+  });
+
+  /* 툴팁 엘리먼트 */
+  let tip = document.getElementById("graph-tooltip");
+  if (!tip) {
+    tip = document.createElement("div");
+    tip.id = "graph-tooltip";
+    tip.className = "graph-tooltip";
+    el.appendChild(tip);
+  }
+
+  let svg, linkSel, nodeSel;
+
+  function draw(){
+    const width = 880;
+    const height = 720;
+    const cx = width / 2;
+    const cy = height / 2;
+
+    const R_CORE = 92;
+    const R_MID  = 185;
+    const R_OUT  = 270;
+    const R_PROJ = 350;
+
+    /* 노드 고정 위치:
+       - 중심 코어: React, Next.js, Tailwind CSS, shadcn/ui (Next.js만 세 곳, 나머지는 네 곳 모두)
+       - 중간 링: Figma, NestJS, Express, MongoDB, Server Actions, Tiptap, GitHub Actions
+       - 외곽 링: MySQL, Docker, Vitest, Three.js, Zustand
+       - 4 모서리: AIM AJOU, D.V.D, LumoStage, MCSS (프로젝트 앵커) */
+    const pos = {
+      // Core 4
+      "React":        { a: -135, r: R_CORE, deg: 4, type: "core", cat: "Core UI" },
+      "Next.js":      { a: -45,  r: R_CORE, deg: 4, type: "core", cat: "Core Fullstack" },
+      "shadcn/ui":    { a: 45,   r: R_CORE, deg: 4, type: "core", cat: "Core Design System" },
+      "Tailwind CSS": { a: 135,  r: R_CORE, deg: 4, type: "core", cat: "Core Styling" },
+
+      // Middle Ring
+      "Figma":          { a: -165, r: R_MID, deg: 3, type: "tech", cat: "UI/UX Design System" },
+      "Tiptap":         { a: -110, r: R_MID, deg: 3, type: "tech", cat: "Rich Text Editor" },
+      "GitHub Actions": { a: -75,  r: 195,   deg: 3, type: "tech", cat: "CI/CD Automation" },
+      "NestJS":         { a: -20,  r: R_MID, deg: 3, type: "tech", cat: "Backend API" },
+      "Express":        { a: 35,   r: 195,   deg: 3, type: "tech", cat: "Node Backend" },
+      "MongoDB":        { a: 95,   r: R_MID, deg: 3, type: "tech", cat: "NoSQL Database" },
+      "Server Actions": { a: 165,  r: 195,   deg: 3, type: "tech", cat: "Fullstack Mutation" },
+
+      // Outer Ring
+      "Vitest":   { a: -65, r: R_OUT, deg: 2, type: "tech", cat: "Testing Framework" },
+      "Docker":   { a: -40, r: R_OUT, deg: 2, type: "tech", cat: "Containerization" },
+      "MySQL":    { a: -10, r: R_OUT, deg: 2, type: "tech", cat: "Relational DB" },
+      "Three.js": { a: 20,  r: R_OUT, deg: 2, type: "tech", cat: "3D WebGL Engine" },
+      "Zustand":  { a: 65,  r: R_OUT, deg: 2, type: "tech", cat: "State Management" },
+
+      // 4 Projects (Corner Anchors)
+      "AIM AJOU":  { a: -140, r: R_PROJ, type: "proj" },
+      "D.V.D":     { a: -35,  r: R_PROJ, type: "proj" },
+      "LumoStage": { a: 45,   r: R_PROJ, type: "proj" },
+      "MCSS":      { a: 135,  r: R_PROJ, type: "proj" }
+    };
+
+    const XY = {};
+    for (const [id, p] of Object.entries(pos)) {
+      const rad = p.a * Math.PI / 180;
+      XY[id] = {
+        id,
+        x: cx + p.r * Math.cos(rad),
+        y: cy + p.r * Math.sin(rad),
+        a: p.a,
+        rad,
+        r: p.r,
+        deg: p.deg || 4,
+        type: p.type,
+        cat: p.cat || ""
+      };
+    }
+
+    // 기술 스택 사이의 곡선 경로 생성 (Tech-to-Tech bezier)
+    function makeTechPath(s, t) {
+      const p1 = XY[s], p2 = XY[t];
+      if (!p1 || !p2) return "";
+      const x1 = p1.x, y1 = p1.y;
+      const x2 = p2.x, y2 = p2.y;
+
+      const mx = (x1 + x2) / 2;
+      const my = (y1 + y2) / 2;
+      const vx = mx - cx, vy = my - cy;
+
+      const cpx = mx + vx * 0.14;
+      const cpy = my + vy * 0.14;
+
+      return `M ${x1} ${y1} Q ${cpx} ${cpy} ${x2} ${y2}`;
+    }
+
+    // 폰트 폭 기반 알약 뱃지 크기 계산
+    const measCanvas = document.createElement("canvas");
+    const ctx = measCanvas.getContext("2d");
+
+    function getPillSize(id, type, deg) {
+      if (type === "proj") {
+        ctx.font = "700 13.5px 'Pretendard Variable', sans-serif";
+        const w = ctx.measureText(id).width + 32;
+        return { w: Math.max(w, 88), h: 32, rx: 16 };
+      }
+      ctx.font = (deg >= 4 ? "600" : "500") + " 12px 'Pretendard Variable', sans-serif";
+      const textW = ctx.measureText(id).width;
+      const w = textW + (deg >= 4 ? 26 : 22);
+      return { w: Math.max(w, 54), h: 26, rx: 13 };
+    }
+
+    el.querySelector("svg")?.remove();
+    svg = d3.select(el).append("svg")
+      .attr("viewBox", `0 0 ${width} ${height}`)
+      .attr("role", "img")
+      .attr("aria-label", "프레임워크 및 기술 스택 아키텍처 관계망 그래프");
+
+    // ① 동심원 안내 가이드
+    const guide = svg.append("g").attr("class", "guides");
+
+    guide.append("circle")
+      .attr("class", "ring-core")
+      .attr("cx", cx).attr("cy", cy).attr("r", R_CORE + 22);
+
+    [
+      { r: R_CORE + 22, label: "공통 코어 (Core)", yOffset: -8 },
+      { r: R_MID + 18,  label: "백엔드 · 데이터 · UI", yOffset: -8 },
+      { r: R_OUT + 18,  label: "인프라 · 3D · 테스트", yOffset: -8 }
+    ].forEach(gItem => {
+      guide.append("circle").attr("class", "ring")
+        .attr("cx", cx).attr("cy", cy).attr("r", gItem.r);
+
+      guide.append("text").attr("class", "ring-label")
+        .attr("x", cx).attr("y", cy - gItem.r + gItem.yOffset)
+        .attr("text-anchor", "middle")
+        .text(gItem.label);
+    });
+
+    // ② 기술 스택 간 베지어 곡선 링크
+    const linkGroup = svg.append("g").attr("class", "links");
+    linkSel = linkGroup.selectAll("path").data(techLinks).join("path")
+      .attr("class", "link solo")
+      .attr("d", d => makeTechPath(d.source, d.target));
+
+    // ③ 노드 (기술 스택 & 프로젝트 앵커 알약 뱃지)
+    const allNodes = [
+      ...PROJECTS.map(id => ({ id, ...XY[id] })),
+      ...TECH.map(id => ({ id, ...XY[id] }))
+    ];
+
+    const nodeGroup = svg.append("g").attr("class", "nodes");
+    nodeSel = nodeGroup.selectAll("g.node").data(allNodes).join("g")
+      .attr("class", d => `node ${d.type} deg-${d.deg}`)
+      .attr("transform", d => `translate(${d.x},${d.y})`);
+
+    nodeSel.each(function(d) {
+      const g = d3.select(this);
+      const size = getPillSize(d.id, d.type, d.deg);
+      const isCore = d.deg === 4 && d.type !== "proj";
+
+      // 알약 캡슐 배경
+      g.append("rect")
+        .attr("x", -size.w / 2)
+        .attr("y", -size.h / 2)
+        .attr("width", size.w)
+        .attr("height", size.h)
+        .attr("rx", size.rx)
+        .attr("ry", size.rx)
+        .attr("fill", isCore ? "var(--ink)" : "var(--canvas)")
+        .attr("stroke", isCore ? "var(--ink)" : (d.type === "proj" || d.deg >= 3 ? "var(--ink)" : "var(--hairline)"));
+
+      g.append("text")
+        .attr("x", 0)
+        .attr("y", d.type === "proj" ? 0 : 0.5)
+        .attr("text-anchor", "middle")
+        .attr("dominant-baseline", "central")
+        .attr("fill", isCore ? "#ffffff" : (d.type === "proj" || d.deg >= 3 ? "var(--ink)" : "var(--body)"))
+        .attr("font-size", d.type === "proj" ? "13.5px" : "12px")
+        .attr("font-weight", d.type === "proj" ? "700" : (d.deg >= 3 ? "600" : "500"))
+        .style("text-anchor", "middle")
+        .style("dominant-baseline", "central")
+        .style("fill", isCore ? "#ffffff" : "")
+        .text(d.id);
+    });
+
+    // 상호작용 바인딩
+    nodeSel
+      .on("mouseenter", (e, d) => {
+        hovered = d.id;
+        showTooltip(e, d);
+        paint();
+      })
+      .on("mousemove", (e) => {
+        positionTooltip(e);
+      })
+      .on("mouseleave", () => {
+        hovered = null;
+        hideTooltip();
+        paint();
+      })
+      .on("click", (e, d) => {
+        active = (active === d.id) ? null : d.id;
+        if (active) showTooltip(e, d);
+        else hideTooltip();
+        paint();
+      });
+
+    paint();
+  }
+
+  function showTooltip(e, d) {
+    if (!tip) return;
+    if (d.type === "proj") {
+      const proStacks = Array.from(PROJ_TECH[d.id] || []);
+      tip.innerHTML = `
+        <div class="graph-tooltip-title">
+          <span>${d.id}</span>
+          <span class="graph-tooltip-tag">총 ${proStacks.length}개 스택 결합</span>
+        </div>
+        <div class="graph-tooltip-item"><b>아키텍처 스택</b><span>${proStacks.join(" · ")}</span></div>
+      `;
+    } else {
+      const projs = TECH_PROJECTS[d.id] || [];
+      const solo = projs.filter(p => p[1] === 1).map(p => p[0]);
+      const team = projs.filter(p => p[1] === 0).map(p => p[0]);
+      const neighbors = Array.from(techNeighbors[d.id] || []);
+
+      tip.innerHTML = `
+        <div class="graph-tooltip-title">
+          <span>${d.id}</span>
+          <span class="graph-tooltip-tag">${d.cat || (d.deg === 4 ? "코어 프레임워크" : "연계 스택")}</span>
+        </div>
+        ${solo.length ? `<div class="graph-tooltip-item"><b>직접 구축</b><span>${solo.join(", ")}</span></div>` : ""}
+        ${team.length ? `<div class="graph-tooltip-item"><b>팀 협업</b><span>${team.join(", ")}</span></div>` : ""}
+        ${neighbors.length ? `<div class="graph-tooltip-item"><b>연계 프레임워크</b><span>${neighbors.join(", ")}</span></div>` : ""}
+      `;
+    }
+    tip.classList.add("show");
+    positionTooltip(e);
+  }
+
+  function positionTooltip(e) {
+    if (!tip) return;
+    const rect = el.getBoundingClientRect();
+    const x = e.clientX - rect.left + 14;
+    const y = e.clientY - rect.top + 14;
+    tip.style.left = Math.min(x, rect.width - 260) + "px";
+    tip.style.top = y + "px";
+  }
+
+  function hideTooltip() {
+    if (!tip || active) return;
+    tip.classList.remove("show");
+  }
+
+  function paint(){
+    if (!nodeSel || !linkSel) return;
+
+    const currentFocus = hovered || active;
+
+    if (!currentFocus) {
+      nodeSel.classed("dim", false).classed("active", false);
+      linkSel.classed("dim", false).classed("active", false);
+      return;
+    }
+
+    const isProj = PROJECTS.includes(currentFocus);
+    const keepNodes = new Set([currentFocus]);
+    const activeLinkKeys = new Set();
+
+    if (isProj) {
+      // 프로젝트 선택 시: 해당 프로젝트에 속한 기술 스택들과 그 사이의 연결선 강조
+      const stacks = PROJ_TECH[currentFocus] || new Set();
+      stacks.forEach(s => keepNodes.add(s));
+
+      techLinks.forEach(l => {
+        if (stacks.has(l.source) && stacks.has(l.target)) {
+          activeLinkKeys.add(`${l.source}->${l.target}`);
+          activeLinkKeys.add(`${l.target}->${l.source}`);
+        }
+      });
+    } else {
+      // 기술 스택 선택 시: 해당 스택, 연결된 이웃 스택, 사용된 프로젝트 강조
+      keepNodes.add(currentFocus);
+      (techNeighbors[currentFocus] || []).forEach(nbr => keepNodes.add(nbr));
+
+      const projs = TECH_PROJECTS[currentFocus] || [];
+      projs.forEach(([p]) => keepNodes.add(p));
+
+      techLinks.forEach(l => {
+        if (l.source === currentFocus || l.target === currentFocus) {
+          activeLinkKeys.add(`${l.source}->${l.target}`);
+          activeLinkKeys.add(`${l.target}->${l.source}`);
+        }
+      });
+    }
+
+    nodeSel
+      .classed("active", d => d.id === currentFocus)
+      .classed("dim", d => !keepNodes.has(d.id));
+
+    linkSel
+      .classed("active", d => activeLinkKeys.has(`${d.source}->${d.target}`) || activeLinkKeys.has(`${d.target}->${d.source}`))
+      .classed("dim", d => !(activeLinkKeys.has(`${d.source}->${d.target}`) || activeLinkKeys.has(`${d.target}->${d.source}`)));
+  }
+
+  draw();
+  let t;
+  window.addEventListener("resize", () => {
+    clearTimeout(t);
+    t = setTimeout(draw, 180);
+  });
+})();
+
+/* ===================================================================
+   ③ 프로젝트 목록
+=================================================================== */
+(function projects(){
+  const box = document.getElementById("projects");
+
+  WORK.forEach(w => {
+    const art = document.createElement("article");
+    art.className = "proj";
+
+    const body =
+      `<div><h3>${w.name}</h3><p class="role">${w.role}</p>` +
+      (w.problem ? `<p class="problem"><span>해결하려던 문제</span>${w.problem}</p>` : "") +
+      `<ul>` +
+      w.points.map(p => `<li>${p}</li>`).join("") +
+      `</ul><p class="stack">${w.stack}</p></div>`;
+
+    // 링크가 있으면 카드째로 누를 수 있게 a로, 없으면 그냥 상자로 둔다
+    const open  = w.link
+      ? `<a class="proj-card" href="${w.link.href}" target="_blank" rel="noopener noreferrer">`
+      : `<div class="proj-card">`;
+    const close = w.link ? `</a>` : `</div>`;
+    const foot  = w.link
+      ? `<span class="proj-card-label">${w.link.label} ↗</span>
+         <span class="proj-card-host">${w.link.host}</span>`
+      : `<span class="proj-card-label off">비공개</span>
+         <span class="proj-card-host">공개 링크 없음</span>`;
+
+    art.innerHTML = body + open +
+      `<figure class="shot"><img src="${w.shot}" alt="${w.name} 화면" loading="lazy"></figure>` +
+      `<span class="proj-card-foot">${foot}</span>` + close;
+
+    box.appendChild(art);
+  });
+
+  // 아직 올리지 않은 이미지는 깨진 아이콘 대신 빈 자리로 둔다
+  box.querySelectorAll(".shot img").forEach(img => {
+    img.addEventListener("error", () => {
+      const fig = img.closest(".shot");
+      img.remove();
+      const ph = document.createElement("span");
+      ph.className = "ph";
+      ph.textContent = "이미지 준비 중";
+      fig.appendChild(ph);
+    });
+  });
+})();
+</script>
+</body>
+</html>
